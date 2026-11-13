@@ -1,0 +1,649 @@
+<title>Mi Ángel y Yo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Grandstander:wght@500;700;800&family=Nunito:wght@500;700;800&display=swap">
+<style>
+[hidden]{display:none!important}
+/* Layout: libro de cuentos nocturno. Escena ilustrada arriba (se toca), hoja de papel con el texto abajo, controles grandes para manos pequeñas. Un solo mundo de noche, a propósito. */
+:root{
+  --cielo:#141a3e;
+  --cielo-2:#222a62;
+  --papel:#fbf3df;
+  --tinta:#2a2456;
+  --tinta-suave:#6a6297;
+  --oro:#f7c85c;
+  --durazno:#f3a487;
+  --lavanda:#cfc3f7;
+  --crema:#fbf3df;
+  --display:"Grandstander","Baloo 2","Comic Sans MS",system-ui,sans-serif;
+  --texto:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+html,body{background:var(--cielo);color:var(--crema)}
+body{
+  font-family:var(--texto);
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:18px 36px;
+  background:
+    radial-gradient(1.5px 1.5px at 12% 18%,#fff8 50%,transparent 51%),
+    radial-gradient(1.5px 1.5px at 78% 9%,#fff7 50%,transparent 51%),
+    radial-gradient(2px 2px at 90% 42%,#ffe9a888 50%,transparent 51%),
+    radial-gradient(1.5px 1.5px at 6% 66%,#fff6 50%,transparent 51%),
+    radial-gradient(1200px 600px at 50% -10%,var(--cielo-2),var(--cielo));
+  background-attachment:fixed;
+  min-height:100%;
+}
+.libro{max-width:920px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.cabecera{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.marca{display:flex;align-items:center;gap:10px;min-width:0}
+.marca svg{flex:none}
+.marca b{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.04em;color:var(--oro);display:block;line-height:1.1}
+.marca span{font-size:12.5px;color:#c9c3e3;letter-spacing:.06em;text-transform:uppercase}
+.herr{display:flex;gap:8px}
+.chip-btn{
+  font:700 14px/1 var(--texto);color:var(--crema);background:#ffffff14;border:1.5px solid #ffffff2a;
+  border-radius:999px;padding:10px 14px;display:inline-flex;align-items:center;gap:7px;cursor:pointer;
+}
+.chip-btn[aria-pressed="false"]{opacity:.6}
+.chip-btn:hover{background:#ffffff22}
+.chip-btn:focus-visible,.nav:focus-visible,.boton:focus-visible,.palabra:focus-visible,[data-t]:focus-visible{outline:3px solid var(--oro);outline-offset:3px}
+
+.escena{position:relative;border-radius:26px;overflow:hidden;border:3px solid #f7c85c55;box-shadow:0 20px 50px #0008, inset 0 0 0 1px #fff2;background:#3d4189;touch-action:pan-y}
+.escena svg{display:block;width:100%;height:auto;max-width:100%}
+[data-t]{cursor:pointer}
+
+.anillo{position:absolute;width:13%;aspect-ratio:1;max-width:100%;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;
+  border:3px solid var(--oro);box-shadow:0 0 18px var(--oro);animation:latido 1.4s ease-in-out infinite}
+@keyframes latido{0%,100%{transform:translate(-50%,-50%) scale(.82);opacity:.95}50%{transform:translate(-50%,-50%) scale(1.06);opacity:.45}}
+
+.burbuja{position:absolute;left:3%;bottom:4%;max-width:min(48%,340px);background:var(--papel);color:var(--tinta);
+  font:700 clamp(13px,2.1vw,17px)/1.4 var(--texto);padding:12px 16px;border-radius:20px 20px 20px 6px;box-shadow:0 8px 24px #0007;
+  animation:aparece .45s cubic-bezier(.3,1.6,.5,1)}
+.burbuja::before{content:"Lumi";display:block;font:800 12px/1 var(--display);letter-spacing:.08em;color:#b07a10;margin-bottom:5px;text-transform:uppercase}
+@keyframes aparece{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+
+.plumas{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.pluma{position:absolute;top:-60px;width:22px;animation:cae linear forwards}
+@keyframes cae{to{transform:translateY(620px) rotate(var(--r));opacity:.2}}
+
+.hoja{background:var(--papel);color:var(--tinta);border-radius:22px;padding:22px clamp(18px,4vw,36px) 20px;box-shadow:0 14px 40px #0006;position:relative;min-height:220px;display:flex;flex-direction:column;gap:12px}
+.hoja::after{content:"";position:absolute;inset:8px;border:1.5px dashed #2a245622;border-radius:16px;pointer-events:none}
+.folio{font:700 12px/1 var(--texto);letter-spacing:.14em;text-transform:uppercase;color:var(--tinta-suave)}
+.relato{display:flex;flex-direction:column;gap:8px;max-width:62ch}
+.relato p{margin:0;font-size:clamp(18px,2.5vw,22px);line-height:1.55;font-weight:500}
+.relato p.dialogo{padding-left:2px}
+.revela{margin:0;font-size:clamp(17px,2.3vw,20px);line-height:1.5;font-weight:800;color:#8a4a1c;background:#f7c85c38;border-radius:12px;padding:10px 14px;max-width:62ch;animation:aparece .5s ease}
+.pista{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;background:#e9e2ff;color:var(--tinta);font:800 15px/1.3 var(--texto);border-radius:999px;padding:9px 16px 9px 12px}
+.pista svg{flex:none}
+
+.portada h1{font-family:var(--display);font-weight:800;font-size:clamp(40px,7vw,64px);line-height:1;margin:2px 0 0;letter-spacing:-.01em;color:var(--tinta);text-wrap:balance}
+.portada h1 em{font-style:normal;color:#d9902a}
+.portada .sub{margin:0;font-size:clamp(17px,2.4vw,20px);color:var(--tinta-suave);font-weight:700}
+.campo{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-top:4px}
+.campo label{display:flex;flex-direction:column;gap:6px;font-weight:800;font-size:15px;flex:1 1 220px;min-width:0}
+.campo input{font:700 20px/1.2 var(--display);color:var(--tinta);background:#fff;border:2.5px solid #d8cfee;border-radius:14px;padding:12px 14px;width:100%;box-sizing:border-box}
+.campo input:focus{outline:none;border-color:var(--oro);box-shadow:0 0 0 4px #f7c85c55}
+.boton{font:800 18px/1 var(--display);color:var(--tinta);background:var(--oro);border:none;border-radius:16px;padding:16px 22px;cursor:pointer;box-shadow:0 5px 0 #c99325;display:inline-flex;align-items:center;gap:8px}
+.boton:active{transform:translateY(3px);box-shadow:0 2px 0 #c99325}
+
+.palabra{align-self:flex-start;max-width:100%;font:800 clamp(26px,4.6vw,40px)/1.1 var(--display);color:#fff;background:linear-gradient(180deg,#f9d77a,#e9a83a);border:none;border-radius:22px;padding:16px 28px;cursor:pointer;box-shadow:0 6px 0 #b8801f,0 0 30px #f7c85c88;text-shadow:0 2px 0 #b8801f;animation:respira 2s ease-in-out infinite}
+.palabra.hecha{animation:none}
+@keyframes respira{50%{transform:scale(1.05)}}
+
+.fin h2{font-family:var(--display);font-weight:800;font-size:clamp(44px,8vw,68px);margin:0;line-height:1;color:#d9902a}
+.fin .grande{margin:0;font-size:clamp(20px,2.8vw,24px);font-weight:800}
+.tarjeta-kit{display:flex;gap:12px;align-items:flex-start;background:#ece6ff;border-radius:16px;padding:14px 16px;max-width:62ch}
+.tarjeta-kit p{margin:0;font-weight:600;line-height:1.5}
+.tarjeta-kit b{display:block;font-family:var(--display);font-size:16px;margin-bottom:2px}
+.oracion{align-self:stretch;max-width:520px;margin:4px auto;text-align:center;background:#fff9e8;border:2.5px solid #f7c85c;border-radius:22px;padding:20px 18px 18px;box-shadow:0 0 0 6px #f7c85c22}
+.oracion b{display:block;font:800 13px/1 var(--texto);letter-spacing:.14em;text-transform:uppercase;color:#b07a10;margin-bottom:12px}
+.oracion p{margin:0;font:700 clamp(19px,2.8vw,24px)/1.5 var(--display);color:var(--tinta)}
+.oracion span{display:block;margin-top:10px;font:800 16px/1 var(--display);color:#d9902a}
+
+.mandos{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.nav{width:62px;height:62px;flex:none;border-radius:50%;border:none;cursor:pointer;background:var(--oro);color:var(--tinta);display:grid;place-items:center;box-shadow:0 5px 0 #c99325}
+.nav:active{transform:translateY(3px);box-shadow:0 2px 0 #c99325}
+.nav[disabled]{visibility:hidden}
+.puntos{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;min-width:0}
+.puntos i{width:10px;height:10px;border-radius:50%;background:#ffffff33;display:block;transition:.3s}
+.puntos i.ya{background:#f7c85c88}
+.puntos i.aqui{background:var(--oro);width:26px;border-radius:6px}
+.pie{text-align:center;font-size:12.5px;color:#a9a3cc;letter-spacing:.04em}
+
+/* ===== Escena: estados ===== */
+#sc *{transition:opacity .7s ease, fill .9s ease}
+#sc .sky{fill:#a7d3f5}
+#sc[data-night="1"] .sky{fill:#0e1442}
+#noche{opacity:0;pointer-events:none}
+#sc[data-night="1"] #noche{opacity:.52}
+.solodia{opacity:1}
+#sc[data-night="1"] .solodia{opacity:0}
+.solonoche{opacity:0}
+#sc[data-night="1"] .solonoche{opacity:1}
+#pantalla{fill:#f7c85c}
+#sc[data-night="1"] #pantalla{fill:#9b8bc4}
+#monstruo{opacity:0;pointer-events:none}
+#sc[data-monster="1"] #monstruo{opacity:1;pointer-events:auto}
+#sc[data-monster="1"] #abrigo{opacity:0}
+#chispa{opacity:0;pointer-events:none}
+#sc[data-spark="1"] #chispa{opacity:1;pointer-events:auto}
+#chispa .halo{transform-box:fill-box;transform-origin:center;animation:titila 1.2s ease-in-out infinite}
+@keyframes titila{50%{transform:scale(1.5);opacity:.4}}
+#lumi{opacity:0;pointer-events:none}
+#sc[data-lumi="1"] #lumi{opacity:1;pointer-events:auto}
+#lumiFlota{animation:flota 3.2s ease-in-out infinite}
+@keyframes flota{50%{transform:translateY(-9px)}}
+#lumiCuerpo{transform-box:fill-box;transform-origin:center;transform:scale(.2);transition:transform .9s cubic-bezier(.3,1.5,.5,1)}
+#sc[data-lumi="1"] #lumiCuerpo{transform:scale(1)}
+#lumiCuerpo.giro{animation:giro .8s ease}
+@keyframes giro{50%{transform:scale(1.15) rotate(12deg)}}
+.aura{transform-box:fill-box;transform-origin:center;animation:pulsa 2.6s ease-in-out infinite}
+@keyframes pulsa{50%{transform:scale(1.12);opacity:.8}}
+#sc[data-glow="1"] .aura{animation-duration:.9s}
+#manoLumi{transform-box:view-box;transform-origin:-12px 8px}
+#sc[data-wave="1"] #manoLumi{animation:saluda .5s ease-in-out 4}
+@keyframes saluda{50%{transform:rotate(-28deg)}}
+#sc[data-wave="1"] .ala{animation:aletea .5s ease-in-out 4}
+.ala{transform-box:fill-box}
+.ala.izq{transform-origin:right center}.ala.der{transform-origin:left center}
+@keyframes aletea{50%{transform:scaleY(.8) rotate(-6deg)}}
+#rayo,#debajo{opacity:0;pointer-events:none}
+#sc[data-beam="1"] #rayo,#sc[data-beam="1"] #debajo{opacity:1}
+#brazos,#corazon,#alasSami{opacity:0}
+#sc[data-arms="1"] #brazos,#sc[data-arms="1"] #corazon,#sc[data-arms="1"] #alasSami{opacity:1}
+#sc[data-arms="1"] #manos{opacity:0}
+#corazon{transform-box:fill-box;transform-origin:center}
+#sc[data-arms="1"] #corazon{animation:pulsa 1.4s ease-in-out infinite}
+.ojosCerrados{opacity:0}
+#sc[data-sleep="1"] .ojosCerrados{opacity:1}
+#sc[data-sleep="1"] .ojosAbiertos{opacity:0}
+#zzz{opacity:0}
+#sc[data-sleep="1"] #zzz{opacity:1}
+#zzz text{animation:sube 2.4s ease-in-out infinite}
+#zzz text:nth-child(2){animation-delay:.8s}#zzz text:nth-child(3){animation-delay:1.6s}
+@keyframes sube{0%{opacity:0;transform:translateY(8px)}40%{opacity:1}100%{opacity:0;transform:translateY(-16px)}}
+.estrella{transform-box:fill-box;transform-origin:center}
+#sc[data-stars="1"] .estrella.memoria{animation:titila 1.6s ease-in-out infinite}
+.estrella.vista{fill:#fff6c7}
+
+@media (max-width:560px){
+  .nav{width:54px;height:54px}
+  .burbuja{max-width:64%;left:2.5%;bottom:3%;padding:9px 12px}
+  .hoja{padding-top:18px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important}
+  #sc *{transition:opacity .2s, fill .2s!important}
+}
+</style>
+
+<div class="libro">
+  <header class="cabecera">
+    <div class="marca">
+      <svg width="34" height="34" viewBox="-40 -48 80 90" aria-hidden="true"><ellipse cx="0" cy="-40" rx="11" ry="3.5" fill="none" stroke="#f7c85c" stroke-width="3"/><path d="M-8,-2 C-40,-30 -62,-8 -54,14 C-44,30 -22,22 -8,10Z" fill="#fff"/><path d="M8,-2 C40,-30 62,-8 54,14 C44,30 22,22 8,10Z" fill="#fff"/><path d="M-16,0 Q0,-8 16,0 L24,40 Q0,50 -24,40Z" fill="#fff8e8"/><circle cy="-18" r="15" fill="#ffe2c8"/><path d="M-15,-20 Q-14,-36 0,-35 Q14,-36 15,-20 Q10,-28 2,-27 Q-6,-30 -15,-20Z" fill="#f2b84b"/></svg>
+      <div><b>Mi Angelito Guardián</b><span>Cuento interactivo</span></div>
+    </div>
+    <div class="herr">
+      <button class="chip-btn" id="btnLeer" type="button" aria-label="Leer esta página en voz alta">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>Leer
+      </button>
+      <button class="chip-btn" id="btnSonido" type="button" aria-pressed="true" aria-label="Sonidos mágicos">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V6l11-2v12"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg><span id="txtSonido">Sonidos</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="escena" id="escena">
+    <svg id="sc" viewBox="0 0 800 560" role="img" aria-label="La habitación del cuento" data-night="1" data-lumi="1">
+      <defs>
+        <pattern id="papelTapiz" width="64" height="64" patternUnits="userSpaceOnUse">
+          <rect width="64" height="64" fill="#4b4f97"/>
+          <path d="M16,10 l2,5 5,0 -4,3 2,5 -5,-3 -5,3 2,-5 -4,-3 5,0z" fill="#5c61aa"/>
+          <circle cx="48" cy="44" r="3" fill="#5c61aa"/>
+        </pattern>
+        <radialGradient id="gLampara"><stop offset="0" stop-color="#ffe9a6" stop-opacity=".85"/><stop offset="1" stop-color="#ffe9a6" stop-opacity="0"/></radialGradient>
+        <radialGradient id="gLumi"><stop offset="0" stop-color="#fff6cf" stop-opacity=".95"/><stop offset=".45" stop-color="#f7c85c" stop-opacity=".45"/><stop offset="1" stop-color="#f7c85c" stop-opacity="0"/></radialGradient>
+        <linearGradient id="gRayo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2b8" stop-opacity=".85"/><stop offset="1" stop-color="#fff2b8" stop-opacity=".12"/></linearGradient>
+        <radialGradient id="gCorazon"><stop offset="0" stop-color="#ffd0dc" stop-opacity=".9"/><stop offset="1" stop-color="#ff8fa3" stop-opacity="0"/></radialGradient>
+        <path id="est" d="M0,-11 L3,-3.5 L11,-3.4 L4.8,2 L7,10.5 L0,5.6 L-7,10.5 L-4.8,2 L-11,-3.4 L-3,-3.5Z"/>
+      </defs>
+
+      <!-- Habitación -->
+      <rect width="800" height="560" fill="url(#papelTapiz)"/>
+      <rect y="468" width="800" height="92" fill="#6b5590"/>
+      <path d="M0 500 H800 M0 530 H800" stroke="#5d4a80" stroke-width="2"/>
+      <ellipse cx="320" cy="516" rx="160" ry="28" fill="#ea9a8a"/>
+      <ellipse cx="320" cy="516" rx="130" ry="20" fill="none" stroke="#fbe0c7" stroke-width="3" stroke-dasharray="8 7"/>
+
+      <!-- Ventana -->
+      <g>
+        <rect x="262" y="42" width="226" height="216" rx="14" fill="#f3e3c3"/>
+        <rect class="sky" x="276" y="56" width="198" height="188" rx="8"/>
+        <g class="solodia">
+          <circle cx="440" cy="92" r="20" fill="#ffe27a"/>
+          <ellipse cx="320" cy="110" rx="30" ry="12" fill="#fff"/><ellipse cx="338" cy="102" rx="18" ry="12" fill="#fff"/>
+          <ellipse cx="420" cy="200" rx="34" ry="12" fill="#fff"/><ellipse cx="404" cy="193" rx="16" ry="10" fill="#fff"/>
+        </g>
+        <rect x="372" y="56" width="6" height="188" fill="#f3e3c3"/>
+        <rect x="276" y="147" width="198" height="6" fill="#f3e3c3"/>
+        <rect x="236" y="30" width="278" height="10" rx="5" fill="#c58b5e"/>
+        <path d="M244 36 Q262 150 252 270 Q270 262 286 268 Q276 150 290 36Z" fill="#ef93a8"/>
+        <path d="M506 36 Q488 150 498 270 Q480 262 464 268 Q474 150 460 36Z" fill="#ef93a8"/>
+      </g>
+
+      <!-- Clóset -->
+      <rect x="40" y="168" width="176" height="18" rx="6" fill="#74559a"/>
+      <rect x="40" y="182" width="176" height="290" rx="10" fill="#8d6aa8"/>
+      <line x1="128" y1="190" x2="128" y2="466" stroke="#6f4f8c" stroke-width="3"/>
+      <circle cx="117" cy="340" r="5" fill="#f7c85c"/><circle cx="139" cy="340" r="5" fill="#f7c85c"/>
+      <circle cx="128" cy="222" r="5" fill="#d9c39a"/>
+      <g id="abrigo">
+        <path d="M100 238 L128 222 L156 238" fill="none" stroke="#d9c39a" stroke-width="4" stroke-linecap="round"/>
+        <path d="M84 250 Q76 300 82 348 L96 350 L100 270Z" fill="#4f9c90"/>
+        <path d="M172 250 Q180 300 174 348 L160 350 L156 270Z" fill="#4f9c90"/>
+        <path d="M98 240 Q128 232 158 240 L168 362 Q128 374 88 362Z" fill="#5fb3a5"/>
+        <path d="M112 238 L128 268 L144 238" fill="#f39c6b"/>
+        <circle cx="128" cy="290" r="4" fill="#fbf3df"/><circle cx="128" cy="314" r="4" fill="#fbf3df"/><circle cx="128" cy="338" r="4" fill="#fbf3df"/>
+      </g>
+
+      <!-- Mesita y lámpara -->
+      <rect x="280" y="400" width="100" height="72" rx="6" fill="#c98a6b"/>
+      <line x1="288" y1="430" x2="372" y2="430" stroke="#a96f54" stroke-width="3"/>
+      <circle cx="330" cy="448" r="4" fill="#f7c85c"/>
+      <rect x="350" y="388" width="22" height="12" rx="2" fill="#8ed6c4"/><rect x="352" y="380" width="18" height="9" rx="2" fill="#ef93a8"/>
+      <g data-t="lamp" tabindex="0" role="button" aria-label="Lámpara">
+        <circle class="solodia" cx="330" cy="340" r="95" fill="url(#gLampara)"/>
+        <ellipse cx="318" cy="398" rx="22" ry="6" fill="#7a4f9a"/>
+        <rect x="315" y="350" width="6" height="48" fill="#d8c7f0"/>
+        <path id="pantalla" d="M288 354 L348 354 L336 318 L300 318Z"/>
+        <rect x="280" y="300" width="80" height="110" fill="transparent"/>
+      </g>
+
+      <!-- Cama -->
+      <rect x="732" y="270" width="48" height="206" rx="20" fill="#e98b7b"/>
+      <rect x="410" y="360" width="28" height="112" rx="12" fill="#e98b7b"/>
+      <rect x="436" y="442" width="300" height="32" fill="#1c1640"/>
+      <rect x="440" y="442" width="12" height="34" fill="#9a5c3e"/><rect x="720" y="442" width="12" height="34" fill="#9a5c3e"/>
+      <rect x="430" y="418" width="306" height="26" rx="6" fill="#b9744f"/>
+      <rect x="434" y="396" width="300" height="28" rx="10" fill="#fdf1e0"/>
+      <ellipse cx="692" cy="336" rx="44" ry="24" fill="#ffffff"/>
+
+      <!-- Alas de luz detrás de Sami -->
+      <g id="alasSami">
+        <path d="M612 352 C560 300 520 340 540 384 C556 406 590 396 612 372Z" fill="#fff4c4" opacity=".75"/>
+        <path d="M668 352 C720 300 760 340 740 384 C724 406 690 396 668 372Z" fill="#fff4c4" opacity=".75"/>
+      </g>
+
+      <!-- Sami -->
+      <g data-t="chest" tabindex="0" role="button" aria-label="El corazón del niño o la niña">
+        <path d="M600 404 Q598 344 640 336 Q682 344 680 404Z" fill="#8ed6c4"/>
+        <circle cx="622" cy="370" r="2.5" fill="#fbf3df"/><circle cx="656" cy="358" r="2.5" fill="#fbf3df"/><circle cx="648" cy="384" r="2.5" fill="#fbf3df"/>
+        <circle cx="604" cy="300" r="7" fill="#e7b48c"/><circle cx="676" cy="300" r="7" fill="#e7b48c"/>
+        <circle cx="640" cy="300" r="36" fill="#f0c39e"/>
+        <path d="M603 298 Q604 256 640 256 Q678 256 677 300 Q668 278 652 276 Q646 290 628 282 Q616 292 603 298Z" fill="#4a2c2a"/>
+        <circle cx="640" cy="254" r="7" fill="#4a2c2a"/>
+        <g class="ojosAbiertos"><ellipse cx="627" cy="303" rx="4.2" ry="5.6" fill="#2a2456"/><ellipse cx="653" cy="303" rx="4.2" ry="5.6" fill="#2a2456"/><circle cx="628.5" cy="301" r="1.4" fill="#fff"/><circle cx="654.5" cy="301" r="1.4" fill="#fff"/></g>
+        <g class="ojosCerrados" fill="none" stroke="#2a2456" stroke-width="2.6" stroke-linecap="round"><path d="M621 303 Q627 309 633 303"/><path d="M647 303 Q653 309 659 303"/></g>
+        <circle cx="617" cy="315" r="6" fill="#f3a487" opacity=".6"/><circle cx="663" cy="315" r="6" fill="#f3a487" opacity=".6"/>
+        <path d="M633 317 Q640 323 647 317" fill="none" stroke="#7a3b3b" stroke-width="2.4" stroke-linecap="round"/>
+        <g id="brazos">
+          <rect x="604" y="356" width="76" height="17" rx="8.5" fill="#79c6b3" transform="rotate(22 642 364)"/>
+          <rect x="600" y="356" width="76" height="17" rx="8.5" fill="#8ed6c4" transform="rotate(-22 638 364)"/>
+          <circle cx="672" cy="350" r="8" fill="#f0c39e"/><circle cx="608" cy="350" r="8" fill="#f0c39e"/>
+        </g>
+        <path d="M434 404 Q520 376 600 386 Q640 396 690 384 Q728 380 736 402 L736 430 L434 430Z" fill="#b6a5ec"/>
+        <path d="M470 400 l3 7 7 0 -6 4 3 7 -7 -4 -7 4 3 -7 -6 -4 7 0z M560 392 l3 7 7 0 -6 4 3 7 -7 -4 -7 4 3 -7 -6 -4 7 0z M690 394 l3 7 7 0 -6 4 3 7 -7 -4 -7 4 3 -7 -6 -4 7 0z" fill="#d9cffa"/>
+        <g id="manos"><circle cx="612" cy="390" r="8" fill="#f0c39e"/><circle cx="668" cy="390" r="8" fill="#f0c39e"/></g>
+      </g>
+
+      <!-- Noche -->
+      <rect id="noche" width="800" height="560" fill="#060920"/>
+
+      <!-- Luna y estrellas (brillan sobre la noche) -->
+      <g class="solonoche">
+        <circle cx="300" cy="200" r="1.8" fill="#fff"/><circle cx="460" cy="70" r="1.6" fill="#fff"/><circle cx="350" cy="120" r="1.6" fill="#fff"/><circle cx="410" cy="230" r="1.6" fill="#fff"/>
+        <g data-t="moon" tabindex="0" role="button" aria-label="La luna">
+          <circle cx="425" cy="100" r="34" fill="#fff1b3" opacity=".25"/>
+          <circle cx="425" cy="100" r="26" fill="#fff1b3"/>
+          <circle cx="414" cy="114" r="4" fill="#efdc94"/><circle cx="440" cy="88" r="3" fill="#efdc94"/>
+          <g class="ojosAbiertos" fill="#5a4a2a"><circle cx="417" cy="98" r="2.6"/><circle cx="433" cy="98" r="2.6"/></g>
+          <g class="ojosCerrados" fill="none" stroke="#5a4a2a" stroke-width="2.2" stroke-linecap="round"><path d="M413 98 Q417 102 421 98"/><path d="M429 98 Q433 102 437 98"/></g>
+          <path d="M419 107 Q425 111 431 107" fill="none" stroke="#5a4a2a" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <g data-t="s1" tabindex="0" role="button" aria-label="Estrella de los primeros pasos" transform="translate(300 85)"><circle r="30" fill="transparent"/><g transform="scale(1.5)"><use href="#est" class="estrella memoria" fill="#ffe17a"/></g></g>
+        <g data-t="s3" tabindex="0" role="button" aria-label="Estrella de los sueños" transform="translate(450 218)"><circle r="30" fill="transparent"/><g transform="scale(1.5)"><use href="#est" class="estrella memoria" fill="#ffe17a"/></g></g>
+      </g>
+
+      <!-- Sombra del clóset -->
+      <g id="monstruo" data-t="monster" tabindex="0" role="button" aria-label="La sombra del clóset">
+        <path d="M80 384 Q66 300 90 250 L82 200 L112 236 Q128 226 144 236 L174 200 L166 250 Q190 300 176 384 Q152 370 128 386 Q104 370 80 384Z" fill="#05071a" opacity=".93"/>
+        <ellipse cx="111" cy="276" rx="8" ry="10" fill="#ffd65a"/><ellipse cx="145" cy="276" rx="8" ry="10" fill="#ffd65a"/>
+        <circle cx="112" cy="279" r="3.5" fill="#05071a"/><circle cx="146" cy="279" r="3.5" fill="#05071a"/>
+        <path d="M108 312 l7 8 6 -8 7 8 6 -8 7 8 6 -8" fill="none" stroke="#ffd65a" stroke-width="2.6" stroke-linejoin="round"/>
+      </g>
+
+      <!-- Lucecita en la ventana -->
+      <g id="chispa" data-t="spark" tabindex="0" role="button" aria-label="La lucecita">
+        <circle class="halo" cx="410" cy="190" r="18" fill="#f7c85c" opacity=".55"/>
+        <circle cx="410" cy="190" r="6" fill="#fffbe6"/>
+        <circle cx="410" cy="190" r="26" fill="transparent"/>
+      </g>
+
+      <!-- Rayo del farolito y lo que hay debajo de la cama -->
+      <polygon id="rayo" points="364,230 376,238 740,476 436,476" fill="url(#gRayo)"/>
+      <g id="debajo">
+        <circle cx="492" cy="452" r="5" fill="#a86c40"/><circle cx="512" cy="452" r="5" fill="#a86c40"/>
+        <circle cx="502" cy="460" r="11" fill="#c08552"/>
+        <ellipse cx="502" cy="474" rx="13" ry="6" fill="#c08552"/>
+        <circle cx="498" cy="458" r="1.6" fill="#2a2456"/><circle cx="506" cy="458" r="1.6" fill="#2a2456"/><ellipse cx="502" cy="463" rx="3" ry="2" fill="#efd2b0"/>
+        <ellipse cx="640" cy="468" rx="30" ry="9" fill="#a7adc6"/>
+        <circle cx="614" cy="462" r="9" fill="#a7adc6"/>
+        <path d="M607 456 L609 446 L615 454Z M617 454 L621 446 L623 457Z" fill="#a7adc6"/>
+        <path d="M609 462 q2 2 4 0 M616 462 q2 2 4 0" fill="none" stroke="#2a2456" stroke-width="1.4"/>
+        <path d="M668 468 q16 -2 12 -12" fill="none" stroke="#a7adc6" stroke-width="5" stroke-linecap="round"/>
+        <text x="600" y="444" font-family="Grandstander, sans-serif" font-weight="700" font-size="12" fill="#fff6c7">z</text>
+      </g>
+
+      <!-- Corazón que brilla -->
+      <g id="corazon">
+        <circle cx="640" cy="358" r="26" fill="url(#gCorazon)"/>
+        <path d="M640 368 C628 358 626 348 633 345 C637 343 640 347 640 349 C640 347 643 343 647 345 C654 348 652 358 640 368Z" fill="#ff8fa3"/>
+      </g>
+
+      <!-- Lumi -->
+      <g id="lumi" transform="translate(330 215)" data-t="lumi" tabindex="0" role="button" aria-label="Lumi, el ángel guardián">
+        <g id="lumiFlota">
+          <g id="lumiCuerpo">
+            <circle class="aura" r="64" fill="url(#gLumi)"/>
+            <path class="ala izq" d="M-8,-2 C-40,-30 -62,-8 -54,14 C-44,30 -22,22 -8,10Z" fill="#ffffff"/>
+            <path class="ala der" d="M8,-2 C40,-30 62,-8 54,14 C44,30 22,22 8,10Z" fill="#ffffff"/>
+            <path d="M-20,-4 C-32,-10 -40,-2 -42,8 M-18,4 C-28,2 -36,8 -38,14 M20,-4 C32,-10 40,-2 42,8 M18,4 C28,2 36,8 38,14" fill="none" stroke="#e8dcff" stroke-width="2" stroke-linecap="round"/>
+            <path d="M-16,0 Q0,-8 16,0 L24,40 Q0,50 -24,40Z" fill="#fff8e8"/>
+            <path d="M-24,40 Q0,50 24,40" fill="none" stroke="#f7c85c" stroke-width="3"/>
+            <g id="manoLumi"><path d="M-12,8 L-28,-6" stroke="#fff8e8" stroke-width="8" stroke-linecap="round"/><circle cx="-30" cy="-8" r="4.5" fill="#ffe2c8"/></g>
+            <path d="M12,8 L32,14" stroke="#fff8e8" stroke-width="8" stroke-linecap="round"/>
+            <circle cx="34" cy="14" r="4.5" fill="#ffe2c8"/>
+            <g data-t="lantern">
+              <circle cx="38" cy="22" r="14" fill="#f7c85c" opacity=".45"/>
+              <path d="M33 14 h10 l2 4 v10 a3 3 0 0 1 -3 3 h-8 a3 3 0 0 1 -3 -3 v-10z" fill="#c58b5e"/>
+              <rect x="34" y="18" width="8" height="10" rx="2" fill="#fff4b0"/>
+              <circle cx="38" cy="22" r="20" fill="transparent"/>
+            </g>
+            <circle cy="-18" r="15" fill="#ffe2c8"/>
+            <path d="M-15,-20 Q-14,-36 0,-35 Q14,-36 15,-20 Q10,-28 2,-27 Q-6,-30 -15,-20Z" fill="#f2b84b"/>
+            <ellipse cy="-41" rx="11" ry="3.5" fill="none" stroke="#f7c85c" stroke-width="3"/>
+            <circle cx="-5" cy="-17" r="2" fill="#2a2456"/><circle cx="5" cy="-17" r="2" fill="#2a2456"/>
+            <circle cx="-9" cy="-11" r="3" fill="#f3a487" opacity=".55"/><circle cx="9" cy="-11" r="3" fill="#f3a487" opacity=".55"/>
+            <path d="M-4,-10 Q0,-6 4,-10" fill="none" stroke="#7a3b3b" stroke-width="1.6" stroke-linecap="round"/>
+          </g>
+        </g>
+      </g>
+
+      <g id="zzz" font-family="Grandstander, sans-serif" font-weight="800" fill="#fff6c7">
+        <text x="684" y="270" font-size="18">z</text><text x="700" y="250" font-size="22">z</text><text x="718" y="226" font-size="27">z</text>
+      </g>
+    </svg>
+    <div id="capaAnillos"></div>
+    <div class="plumas" id="plumas"></div>
+    <div id="capaBurbuja"></div>
+  </div>
+
+  <section class="hoja" id="hoja" aria-live="polite"></section>
+
+  <nav class="mandos" aria-label="Pasar página">
+    <button class="nav" id="atras" type="button" aria-label="Página anterior"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="puntos" id="puntos"></div>
+    <button class="nav" id="adelante" type="button" aria-label="Página siguiente"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  </nav>
+  <p class="pie">Parte del Kit Mi Angelito Guardián · Toca las cosas de la escena para descubrir sorpresas</p>
+</div>
+
+<script>
+(function(){
+  const sc=document.getElementById('sc');
+  const hoja=document.getElementById('hoja');
+  const capaAnillos=document.getElementById('capaAnillos');
+  const capaBurbuja=document.getElementById('capaBurbuja');
+  const plumas=document.getElementById('plumas');
+  const puntos=document.getElementById('puntos');
+  const btnAtras=document.getElementById('atras');
+  const btnAdelante=document.getElementById('adelante');
+
+  let nombre='Sami';
+  try{const g=localStorage.getItem('miangel-nombre'); if(g) nombre=g;}catch(e){}
+  let p=0;
+  let done={};
+  const vistas=new Set();
+  let ultimaEstrella=null;
+
+  const POS={lamp:[330,336],monster:[128,295],spark:[410,190],lumi:[330,205],lantern:[368,237],chest:[640,362],moon:[425,100],s1:[300,85],s3:[450,218]};
+  const FLAGS=['night','monster','spark','lumi','wave','beam','arms','sleep','stars','glow'];
+  const SPARK='<svg width="18" height="18" viewBox="-12 -12 24 24" aria-hidden="true"><path d="M0,-11 L3,-3.5 L11,-3.4 L4.8,2 L7,10.5 L0,5.6 L-7,10.5 L-4.8,2 L-11,-3.4 L-3,-3.5Z" fill="#e0a52c"/></svg>';
+
+  const PAGES=[
+    {tipo:'portada', base:{night:1,lumi:1}},
+    {base:{}, texto:['Esta es la habitación de {n}.','De día es el lugar más alegre de la casa: hay juguetes, colores y una ventana grande para mirar el cielo.'],
+      pista:'Toca la lámpara para que llegue la noche.', targets:['lamp'], despues:{night:1}, revela:'¡Clic! La luz se apagó y llegó la noche.', sonido:'clic'},
+    {base:{night:1,monster:1}, texto:['Pero cuando se apaga la luz, todo se ve distinto.','En la puerta del clóset apareció una sombra grandota, con cuernos y ojos amarillos. {n} se tapó hasta la nariz.'],
+      pista:'Toca la sombra para descubrir qué es de verdad.', targets:['monster'], despues:{monster:0}, revela:'¡Era la chaqueta del colegio, colgada en la puerta! Las sombras a veces nos hacen trampa.', sonido:'magia'},
+    {base:{night:1,spark:1}, texto:['Esa noche, {n} susurró muy bajito:','—¿Hay alguien ahí?','Y en la ventana se prendió una lucecita, chiquita como una luciérnaga.'],
+      pista:'Toca la lucecita de la ventana.', targets:['spark'], despues:{spark:0,lumi:1}, revela:'La lucecita entró volando y empezó a crecer… y a crecer…', sonido:'magia'},
+    {base:{night:1,lumi:1}, texto:['¡La lucecita era un ángel!','—Hola, {n} —dijo con una voz suavecita—. Me llamo Lumi y soy tu ángel guardián.'],
+      pista:'Toca a Lumi para saludarlo.', targets:['lumi'], despues:{wave:1}, burbuja:'¡Hola, {n}! Qué alegría que por fin me puedas ver.', sonido:'saludo'},
+    {base:{night:1,lumi:1,stars:1}, estrellas:true, texto:['—¿Y desde cuándo estás aquí? —preguntó {n}.','—Desde siempre —respondió Lumi—. Cada estrella de esa ventana guarda un momento en el que estuve contigo.'],
+      pista:'Toca las dos estrellas de la ventana.', revela:'Lumi nunca se había ido. Solo estaba esperando a que {n} lo pudiera ver.',
+      recuerdos:{s1:'Cuando diste tus primeros pasos, te caíste… y te volviste a parar. Yo te estaba aplaudiendo.',s3:'Tu primer día en el colegio, cuando te temblaban las manitos, yo iba a tu lado. Y todas las noches cuido tus sueños.'}},
+    {base:{night:1,lumi:1}, texto:['—Lumi… ¿y si hay un monstruo debajo de la cama?','Lumi sonrió y levantó su farolito de luz.'],
+      pista:'Toca el farolito de Lumi.', targets:['lantern'], despues:{beam:1}, revela:'Debajo de la cama estaba Coco, el oso de peluche que {n} había perdido, y Misi, la gata, dormida y ronroneando. Ni un solo monstruo.', sonido:'magia'},
+    {base:{night:1,lumi:1}, palabra:true, texto:['—Te voy a regalar unas palabras secretas —dijo Lumi—. Cuando sientas miedo, las dices bajito y yo vengo enseguida.','Son las mismas que dicen los abuelitos cuando le rezan al Ángel de la Guarda:'],
+      pista:'Toca las palabras y dilas en voz alta.', despues:{glow:1}, revela:'Dilas tú también, despacio y bajito: dulce compañía.', sonido:'brillito'},
+    {base:{night:1,lumi:1}, texto:['—Y cuando me quieras sentir cerca, abraza tus alas —dijo Lumi.','{n} cruzó los brazos sobre el pecho, como si se abrazara con dos alas de luz.'],
+      pista:'Crucen los brazos juntos y toquen el corazón de {n}.', targets:['chest'], despues:{arms:1}, revela:'Y sintió un calorcito en el corazón. Así se siente cuando Lumi está cerca.', sonido:'corazon'},
+    {base:{night:1,lumi:1}, texto:['Desde esa noche, {n} ya no le tiene tanto miedo a la oscuridad.','Sabe que las sombras casi siempre son chaquetas, que debajo de la cama duermen gatas, y que Lumi siempre, siempre está ahí.'],
+      pista:'Toca la luna para darle las buenas noches.', targets:['moon'], despues:{sleep:1}, revela:'La luna bostezó, {n} cerró los ojitos y Lumi se quedó cuidando sus sueños.', sonido:'cancion'},
+    {tipo:'fin', base:{night:1,lumi:1,sleep:1}}
+  ];
+
+  function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function n(t){return esc(t).split('{n}').join(esc(nombre));}
+
+  /* ---------- Sonido ---------- */
+  let ac=null, sonidoOn=true;
+  const NOTAS={clic:[[660,0,.08],[440,.06,.12]],magia:[[784,0,.5],[988,.09,.5],[1175,.18,.5],[1568,.27,.7]],saludo:[[880,0,.3],[1175,.14,.45]],
+    estrella:[[1319,0,.4],[1760,.1,.6]],brillito:[[1047,0,.5],[1319,.08,.5],[1568,.16,.5],[2093,.24,.9],[1568,.42,.8]],corazon:[[523,0,.6],[659,.18,.6],[784,.36,.9]],
+    toque:[[1047,0,.25],[1319,.07,.3]],cancion:[[523,0,.5],[659,.45,.5],[784,.9,.5],[659,1.35,.5],[587,1.8,.5],[523,2.25,.6],[392,2.8,.6],[523,3.35,1.2]]};
+  function sonar(k){
+    if(!sonidoOn||!NOTAS[k]) return;
+    try{
+      ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+      if(ac.state==='suspended') ac.resume();
+      const t=ac.currentTime+.02;
+      NOTAS[k].forEach(([f,d,dur])=>{
+        const o=ac.createOscillator(), g=ac.createGain();
+        o.type=k==='clic'?'triangle':'sine'; o.frequency.value=f;
+        g.gain.setValueAtTime(0,t+d); g.gain.linearRampToValueAtTime(.13,t+d+.02); g.gain.exponentialRampToValueAtTime(.0005,t+d+dur);
+        o.connect(g).connect(ac.destination); o.start(t+d); o.stop(t+d+dur+.05);
+      });
+    }catch(e){}
+  }
+  document.getElementById('btnSonido').addEventListener('click',e=>{
+    sonidoOn=!sonidoOn; e.currentTarget.setAttribute('aria-pressed',sonidoOn);
+    document.getElementById('txtSonido').textContent=sonidoOn?'Sonidos':'Silencio';
+    if(sonidoOn) sonar('toque');
+  });
+
+  /* ---------- Leer en voz alta ---------- */
+  const btnLeer=document.getElementById('btnLeer');
+  if(!('speechSynthesis' in window)) btnLeer.hidden=true;
+  btnLeer.addEventListener('click',()=>{
+    try{
+      const s=window.speechSynthesis; s.cancel();
+      const txt=hoja.innerText.replace(/Página \d+ de \d+/i,'').replace(/Toca[^\n]*|Crucen[^\n]*/g,'').trim();
+      const u=new SpeechSynthesisUtterance(txt);
+      u.lang='es-CO'; u.rate=.86; u.pitch=1.08;
+      const voces=s.getVoices();
+      const v=voces.find(v=>/^es[-_](CO|MX|US|419)/i.test(v.lang))||voces.find(v=>/^es/i.test(v.lang));
+      if(v) u.voice=v;
+      s.speak(u);
+    }catch(e){}
+  });
+
+  /* ---------- Escena ---------- */
+  function flagsDe(i){
+    const pg=PAGES[i];
+    return Object.assign({},pg.base, done[i]&&pg.despues?pg.despues:{});
+  }
+  function pintarEscena(){
+    const f=flagsDe(p);
+    FLAGS.forEach(k=>sc.setAttribute('data-'+k,f[k]?'1':'0'));
+    sc.querySelectorAll('.estrella.memoria').forEach(el=>el.classList.toggle('vista',vistas.has(el.closest('[data-t]').getAttribute('data-t'))&&!!PAGES[p].estrellas));
+  }
+  function pintarAnillos(){
+    capaAnillos.innerHTML='';
+    const pg=PAGES[p]; let ts=[];
+    if(pg.targets&&!done[p]) ts=pg.targets;
+    if(pg.estrellas) ts=['s1','s3'].filter(s=>!vistas.has(s));
+    ts.forEach(t=>{
+      const [x,y]=POS[t]; const d=document.createElement('div');
+      d.className='anillo'; d.style.left=(x/800*100)+'%'; d.style.top=(y/560*100)+'%';
+      if(t.startsWith('s')) d.style.width='8%';
+      capaAnillos.appendChild(d);
+    });
+  }
+  function pintarBurbuja(){
+    capaBurbuja.innerHTML='';
+    const pg=PAGES[p]; let txt=null;
+    if(pg.burbuja&&done[p]) txt=pg.burbuja;
+    if(pg.estrellas&&ultimaEstrella) txt=pg.recuerdos[ultimaEstrella];
+    if(txt){const b=document.createElement('div'); b.className='burbuja'; b.innerHTML=n(txt); capaBurbuja.appendChild(b);}
+  }
+
+  /* ---------- Hoja de texto ---------- */
+  function pintarHoja(){
+    const pg=PAGES[p];
+    if(pg.tipo==='portada'){
+      hoja.className='hoja portada';
+      hoja.innerHTML=`<div class="folio">Un cuento para dormir sin miedo</div>
+        <h1>Mi <em>Ángel</em> y Yo</h1>
+        <p class="sub">La historia de una noche oscura, una lucecita en la ventana y un ángel que siempre estuvo ahí.</p>
+        <form class="campo" id="formNombre">
+          <label for="inpNombre">¿Cómo se llama quien va a escuchar el cuento?
+            <input id="inpNombre" maxlength="14" autocomplete="off" value="${esc(nombre)}">
+          </label>
+          <button class="boton" type="submit">Abrir el cuento ${SPARK}</button>
+        </form>`;
+      document.getElementById('formNombre').addEventListener('submit',e=>{
+        e.preventDefault();
+        const v=document.getElementById('inpNombre').value.trim();
+        nombre=v||'Sami';
+        try{localStorage.setItem('miangel-nombre',nombre);}catch(err){}
+        sonar('magia'); ir(1);
+      });
+      return;
+    }
+    if(pg.tipo==='fin'){
+      hoja.className='hoja fin';
+      hoja.innerHTML=`<div class="folio">Fin del cuento</div>
+        <h2>Fin</h2>
+        <p class="grande">Buenas noches, ${esc(nombre)}. Tu ángel te cuida.</p>
+        <p class="revela">Antes de dormir: di bajito las palabras secretas, dulce compañía, y abraza tus alas.</p>
+        <div class="oracion"><b>Oración al Ángel de la Guarda</b><p>Ángel de mi guarda,<br>mi dulce compañía,<br>no me desampares<br>ni de noche ni de día,<br>hasta que me pongas en paz y alegría<br>con todos los santos,<br>Jesús, José y María.</p><span>Amén.</span></div>
+        <div class="tarjeta-kit">${SPARK}<p><b>Sigue la aventura</b>En tu Cuaderno Mágico puedes ponerle nombre a tu propio ángel y dibujarlo.</p></div>
+        <button class="boton" type="button" id="otraVez">Leer otra vez</button>`;
+      document.getElementById('otraVez').addEventListener('click',()=>{done={};vistas.clear();ultimaEstrella=null;ir(0);});
+      return;
+    }
+    hoja.className='hoja';
+    const total=PAGES.length-2;
+    let html=`<div class="folio">Página ${p} de ${total}</div><div class="relato">`;
+    pg.texto.forEach(t=>{html+=`<p${t.startsWith('—')?' class="dialogo"':''}>${n(t)}</p>`;});
+    html+='</div>';
+    if(pg.palabra) html+=`<button class="palabra${done[p]?' hecha':''}" id="btnPalabra" type="button">¡Dulce compañía!</button>`;
+    if(done[p]&&pg.revela) html+=`<p class="revela">${n(pg.revela)}</p>`;
+    else if(pg.pista) html+=`<div class="pista">${SPARK}${n(pg.pista)}</div>`;
+    hoja.innerHTML=html;
+    const bp=document.getElementById('btnPalabra');
+    if(bp) bp.addEventListener('click',()=>{ lluviaDePlumas(); if(!done[p]){done[p]=true;} sonar('brillito'); render(); });
+  }
+
+  function pintarPuntos(){
+    puntos.innerHTML='';
+    PAGES.forEach((_,i)=>{const d=document.createElement('i'); if(i<p) d.className='ya'; if(i===p) d.className='aqui'; puntos.appendChild(d);});
+    btnAtras.disabled=p===0;
+    btnAdelante.disabled=p===PAGES.length-1;
+  }
+
+  function render(){pintarEscena();pintarAnillos();pintarBurbuja();pintarHoja();pintarPuntos();}
+
+  function ir(i){
+    if(i<0||i>=PAGES.length) return;
+    try{window.speechSynthesis&&window.speechSynthesis.cancel();}catch(e){}
+    if(p===0&&i>0){const v=document.getElementById('inpNombre'); if(v&&v.value.trim()){nombre=v.value.trim(); try{localStorage.setItem('miangel-nombre',nombre);}catch(e){}}}
+    p=i; ultimaEstrella=null; render();
+  }
+
+  function lluviaDePlumas(){
+    for(let i=0;i<22;i++){
+      const d=document.createElement('div'); d.className='pluma';
+      d.style.left=(Math.random()*96)+'%';
+      d.style.setProperty('--r',(Math.random()*540-270)+'deg');
+      d.style.animationDuration=(2.2+Math.random()*2)+'s';
+      d.style.animationDelay=(Math.random()*.8)+'s';
+      d.innerHTML=Math.random()<.35
+        ?'<svg viewBox="-12 -12 24 24" width="20" height="20"><path d="M0,-11 L3,-3.5 L11,-3.4 L4.8,2 L7,10.5 L0,5.6 L-7,10.5 L-4.8,2 L-11,-3.4 L-3,-3.5Z" fill="#ffe17a"/></svg>'
+        :'<svg viewBox="0 0 24 48" width="20" height="40"><path d="M12 2 C22 12 20 34 12 46 C4 34 2 12 12 2Z" fill="#fff"/><path d="M12 7 V46" stroke="#d9cdf7" stroke-width="1.5"/></svg>';
+      plumas.appendChild(d);
+      setTimeout(()=>d.remove(),5200);
+    }
+  }
+
+  function tocar(t){
+    const pg=PAGES[p];
+    if(pg.targets&&pg.targets.includes(t)&&!done[p]){
+      done[p]=true; sonar(pg.sonido||'magia');
+      render(); return;
+    }
+    if(pg.estrellas&&/^s\d$/.test(t)){
+      vistas.add(t); ultimaEstrella=t; sonar('estrella');
+      if(vistas.size===2) done[p]=true;
+      pintarEscena(); pintarAnillos(); pintarBurbuja(); pintarHoja(); return;
+    }
+    /* Toques libres: siempre pasa algo bonito */
+    const f=flagsDe(p);
+    if((t==='lumi'||t==='lantern')&&f.lumi){
+      const c=document.getElementById('lumiCuerpo'); c.classList.remove('giro'); void c.getBBox(); c.classList.add('giro');
+      setTimeout(()=>c.classList.remove('giro'),850); sonar('toque');
+    } else if(t==='moon'||/^s\d$/.test(t)){ sonar('estrella'); }
+    else if(t==='chest'){ sonar('corazon'); }
+    else if(t==='lamp'&&!f.night){ sonar('clic'); }
+  }
+
+  sc.addEventListener('click',e=>{const el=e.target.closest('[data-t]'); if(el) tocar(el.getAttribute('data-t'));});
+  sc.addEventListener('keydown',e=>{
+    if(e.key!=='Enter'&&e.key!==' ') return;
+    const el=e.target.closest('[data-t]'); if(el){e.preventDefault(); tocar(el.getAttribute('data-t'));}
+  });
+  btnAtras.addEventListener('click',()=>ir(p-1));
+  btnAdelante.addEventListener('click',()=>ir(p+1));
+  document.addEventListener('keydown',e=>{
+    if(e.target.tagName==='INPUT') return;
+    if(e.key==='ArrowRight') ir(p+1);
+    if(e.key==='ArrowLeft') ir(p-1);
+  });
+  let x0=null;
+  const escena=document.getElementById('escena');
+  let y0=null;
+  escena.addEventListener('touchstart',e=>{
+    if(e.touches.length!==1||e.target.closest('[data-t]')){x0=null;return;}
+    x0=e.touches[0].clientX; y0=e.touches[0].clientY;
+  },{passive:true});
+  escena.addEventListener('touchend',e=>{
+    if(x0===null) return; const dx=e.changedTouches[0].clientX-x0, dy=e.changedTouches[0].clientY-y0; x0=null;
+    if(Math.abs(dx)>80&&Math.abs(dx)>Math.abs(dy)*2) ir(dx<0?p+1:p-1);
+  });
+
+  render();
+})();
+</script>
